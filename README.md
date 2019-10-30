@@ -7,7 +7,7 @@ I made it because I have two gamepads connected to my PC, an XBox One controller
 USB-Toggle uses GTK 3 as GUI and it requires the apropiate permissions to bind/unbind a device.
 
 
-![USB-Toggle](https://www.dropbox.com/s/6gu4kc68ytqnleu/usb-toggle.png?dl=1)
+![USB-Toggle](https://www.dropbox.com/s/6gu4kc68ytqnleu/usb-toggle.png?raw=1)
 
 
 In Ubuntu and Fedora, USB devices are in /sys/bus/usb/devices/. I do not know if this path is valid for other distros.
