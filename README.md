@@ -10,6 +10,5 @@ USB-Toggle uses GTK 3 as GUI and it requires the proper permissions to bind/unbi
 ![USB-Toggle](https://www.dropbox.com/s/6gu4kc68ytqnleu/usb-toggle.png?raw=1)
 
 
-In Ubuntu and Fedora, USB devices are in /sys/bus/usb/devices/. I do not know if this path is valid for other distros.
 
 
