@@ -1,14 +1,23 @@
 # USB-Toggle
 
-USB-Toggle is a simple Python script that allows binding and unbinding USB devices.
+USB-Toggle is a Python script that allows to **software unplug** and **software plug** any USB device (including hubs).
 
-I have two gamepads connected to my PC, an XBox One controller and an arcade stick. When I wanted to play a game that uses xinput via Proton or Wine, the arcade stick was always recognized as default. So instead of unplugging the arcade stick every time I played one of those games, I decided to make a script to unbind the device by software.
+According to [linux-usb.org](http://www.linux-usb.org/FAQ.html), the sysfs structures for USB are in **/sys/bus/usb/devices/**. The contents of this directory look something like this:
 
-USB-Toggle uses GTK 3 as GUI and it requires the proper permissions to bind/unbind a device.
+    1-0:1.0  2-0:1.0  3-0:1.0   3-3      3-4      4-0:1.0  usb3 
+    1-1      2-1      3-10      3-3:1.0  3-4:1.0  usb1     usb4
+    1-1:1.0  2-1:1.0  3-10:1.0  3-3:1.1  3-4:1.1  usb2
 
+The directories that begin with **usb** refer to USB controllers (root hubs). All the other directories refer to USB devices and their interfaces.
+
+Inside the directories that refer to an actual USB device, is a file named **product**. This file contains the description of the connected device.
+
+For example, the directory **3-10** represents **bus-port**. So this USB device is connected to the bus **3** ant the port **10**. To **software unplug** this **3-10**, this directory name should be pushed to **/usb/drivers/usb/unbind**. To **software plug** it again, it has to be pushed to **/usb/drivers/usb/bind**.
+
+**USB-Toggle** scans the **/sys/bus/usb/devices/** directory and shows the available devices, getting their names from the **product** file. The device status is gotten from the **bConfigurationValue** that is inside of the device directory. Plugs and unplugs the devices by pushing the device directory name to **/usb/drivers/usb/bind** and **/usb/drivers/usb/unbind**.
+
+**USB-Toggle** uses GTK 3 as GUI. It does not use any custom styles, the appearance relies on the system theme. 
 
 ![USB-Toggle](https://www.dropbox.com/s/6gu4kc68ytqnleu/usb-toggle.png?raw=1)
 
-
-
-
+Requires the proper permissions to bind/unbind a device.

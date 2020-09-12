@@ -7,6 +7,8 @@ from gi.repository import Gtk
 class MainWindow(Gtk.Window):
 
     USB_DEVICES_PATH = "/sys/bus/usb/devices/"
+    USB_BIND_PATH = "/sys/bus/usb/drivers/usb/bind"
+    USB_UNBIND_PATH = "/sys/bus/usb/drivers/usb/unbind"
 
     def __init__(self):
         Gtk.Window.__init__(self, title = "USB-Toggle")
@@ -125,9 +127,9 @@ class DeviceGuiController:
             device_mount_point = matches.group(1);
             status = 1000
             if state:
-                status = os.system("echo '" + device_mount_point + "' | tee /sys/bus/usb/drivers/usb/bind")
+                status = os.system("echo '" + device_mount_point + "' | tee " + USB_BIND_PATH)
             else:
-                status = os.system("echo '" + device_mount_point + "' | tee /sys/bus/usb/drivers/usb/unbind")
+                status = os.system("echo '" + device_mount_point + "' | tee " + USB_UNBIND_PATH)
 
             if status != 0:
                 self.window.show_error(error = "Failed to change the state of '" + self.device.name + "' (" + self.device.path + ").\nMake sure you have the required permissions.\nError " + str(status))
@@ -166,5 +168,6 @@ class Device:
 
 main_window = MainWindow()
 main_window.connect("destroy", Gtk.main_quit)
+main_window.set_position(Gtk.WindowPosition.CENTER)
 main_window.show_all()
 Gtk.main()
