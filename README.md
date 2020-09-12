@@ -12,7 +12,7 @@ The directories that begin with **usb** refer to USB controllers (root hubs). Al
 
 Inside the directories that refer to an actual USB device, is a file named **product**. This file contains the description of the connected device.
 
-For example, the directory **3-10** represents **bus-port**. So this USB device is connected to the bus **3** ant the port **10**. To **software unplug** this **3-10**, this directory name should be pushed to **/usb/drivers/usb/unbind**. To **software plug** it again, it has to be pushed to **/usb/drivers/usb/bind**.
+For example, the directory **3-10** represents **bus-port**. So this USB device is connected to the bus **3** at the port **10**. To **software unplug** this **3-10** device, this directory name should be pushed to **/usb/drivers/usb/unbind**. To **software plug** it again, it has to be pushed to **/usb/drivers/usb/bind**.
 
 **USB-Toggle** scans the **/sys/bus/usb/devices/** directory and shows the available devices, getting their names from the **product** file. The device status is gotten from the **bConfigurationValue** that is inside of the device directory. Plugs and unplugs the devices by pushing the device directory name to **/usb/drivers/usb/bind** and **/usb/drivers/usb/unbind**.
 
@@ -20,4 +20,4 @@ For example, the directory **3-10** represents **bus-port**. So this USB device 
 
 ![USB-Toggle](https://www.dropbox.com/s/6gu4kc68ytqnleu/usb-toggle.png?raw=1)
 
-Requires the proper permissions to bind/unbind a device.
+Requires the proper permissions to be used.
