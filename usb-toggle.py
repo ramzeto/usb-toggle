@@ -7,8 +7,6 @@ from gi.repository import Gtk
 class MainWindow(Gtk.Window):
 
     USB_DEVICES_PATH = "/sys/bus/usb/devices/"
-    USB_BIND_PATH = "/sys/bus/usb/drivers/usb/bind"
-    USB_UNBIND_PATH = "/sys/bus/usb/drivers/usb/unbind"
 
     def __init__(self):
         Gtk.Window.__init__(self, title = "USB-Toggle")
@@ -94,7 +92,10 @@ class MainWindow(Gtk.Window):
 
 
 class DeviceGuiController:
-
+    
+    USB_BIND_PATH = "/sys/bus/usb/drivers/usb/bind"
+    USB_UNBIND_PATH = "/sys/bus/usb/drivers/usb/unbind"
+    
     def __init__(self, window, device, unlock_check_button, name_label, on_switch):
         self.window = window
         self.device = device
@@ -127,9 +128,9 @@ class DeviceGuiController:
             device_mount_point = matches.group(1);
             status = 1000
             if state:
-                status = os.system("echo '" + device_mount_point + "' | tee " + USB_BIND_PATH)
+                status = os.system("echo '" + device_mount_point + "' | tee " + self.USB_BIND_PATH)
             else:
-                status = os.system("echo '" + device_mount_point + "' | tee " + USB_UNBIND_PATH)
+                status = os.system("echo '" + device_mount_point + "' | tee " + self.USB_UNBIND_PATH)
 
             if status != 0:
                 self.window.show_error(error = "Failed to change the state of '" + self.device.name + "' (" + self.device.path + ").\nMake sure you have the required permissions.\nError " + str(status))
